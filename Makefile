@@ -1,10 +1,11 @@
+INSTALL_DIR=~/bin/blocks/
 CXXFLAGS=-O3
 
 all: $(addprefix build/,amixer darksky intel-backlight networkmanager bluez t480-battery)
 
 install:
-	mkdir -p ~/bin/blocks
-	cp -vr build/* ~/bin/blocks/
+	mkdir -p $(INSTALL_DIR)
+	cp -vr build/* $(INSTALL_DIR)
 
 clean:
 	rm -rvf build
