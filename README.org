@@ -1,0 +1,15 @@
+#+title: cpp-blocks
+
+Scripts for polybar written in C++
+
+
+* Dependencies
+- [[https://github.com/Kistler-Group/sdbus-cpp][sdbus-c++]]
+- [[https://github.com/jpbarrette/curlpp][curlpp]]
+- [[https://github.com/Tencent/rapidjson/][rapidjson]]
+
+* Installation
+- In the [[Makefile][Makefile]], edit ~INSTALL_DIR~ to your preferred location.
+- Run ~make~.
+- Run ~make install~.
+
