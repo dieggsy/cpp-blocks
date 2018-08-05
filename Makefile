@@ -3,6 +3,9 @@ CXXFLAGS=-O3
 
 all: $(addprefix build/,amixer darksky intel-backlight networkmanager bluez t480-battery)
 
+small: CXXFLAGS += -s
+small: all
+
 install:
 	mkdir -p $(INSTALL_DIR)
 	cp -vr build/* $(INSTALL_DIR)
