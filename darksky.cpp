@@ -40,8 +40,8 @@ int main() {
         rapidjson::Document d;
         std::ostringstream os;
         os << curlpp::options::Url("https://api.darksky.net/forecast/"
-                                   "00000000000000000000000000000000/"
-                                   "0.0,0.0?units=us");
+                                   "eb1b1aa356fc9f843727ee5fb0d01a90/"
+                                   "42.3431,-71.1214?units=us");
         d.Parse(os.str().c_str());
         float temp = roundf(d["currently"]["temperature"].GetFloat());
         std::string icon_str {d["currently"]["icon"].GetString()};

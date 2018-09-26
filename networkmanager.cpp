@@ -1,7 +1,28 @@
 #include <iostream>
 #include <sdbus-c++/sdbus-c++.h>
-#include <boost/algorithm/string/join.hpp>
-#include <boost/algorithm/string/predicate.hpp>
+#include <vector>
+
+bool string_has_suffix(const std::string &str, const std::string &suffix) {
+    return str.size() >= suffix.size()
+        && str.compare(str.size() - suffix.size(), suffix.size(), suffix) == 0;
+}
+
+void string_truncate(std::string &str,int width) {
+    if (str.size() > 10) {
+        str.resize(10,' ');
+        str.replace(str.end()-1, str.end(), "…");
+    }
+}
+
+std::string string_join(std::vector<std::string> &strings, std::string sep = "") {
+    std::string joined;
+    int last = strings.size() - 1;
+    for (int i = 0; i < last; ++i) {
+        joined += strings[i] + sep;
+    }
+    joined += strings[last];
+    return joined;
+};
 
 std::string make_connection_string(sdbus::ObjectPath path) {
     auto active_proxy = sdbus::createObjectProxy
@@ -9,15 +30,16 @@ std::string make_connection_string(sdbus::ObjectPath path) {
     std::string type = active_proxy->getProperty("Type")
         .onInterface("org.freedesktop.NetworkManager.Connection.Active");
     std::string icon;
-    if (boost::algorithm::ends_with(type, "wireless")) {
+    if (string_has_suffix(type, "wireless")) {
         icon = "";
     }
-    else if (boost::algorithm::ends_with(type, "ethernet")) {
+    else if (string_has_suffix(type, "ethernet")) {
         icon = "<>";
     }
     else  { icon = "?"; }
     std::string id = active_proxy->getProperty("Id")
         .onInterface("org.freedesktop.NetworkManager.Connection.Active");
+    string_truncate(id,10);
     return icon + ' ' + id;
 }
 
@@ -36,10 +58,10 @@ int main () {
         }
     }
     if (conn_strings.empty()) {
-        std::cout << "  No Connection" << '\n';
+        std::cout << " No Connection" << '\n';
     }
     else {
-        std::cout << boost::algorithm::join(conn_strings, " ") << '\n';
+        std::cout << string_join(conn_strings, " ") << '\n';
     }
     return 0;
 }
