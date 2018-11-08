@@ -5,9 +5,13 @@
 
 int main () {
     auto bluez_proxy = sdbus::createObjectProxy("org.bluez", "/");
-    std::map<sdbus::ObjectPath, std::map<std::string, std::map<std::string, sdbus::Variant>>> result;
+    std::map<sdbus::ObjectPath,
+             std::map<std::string,
+                      std::map<std::string,
+                               sdbus::Variant>>> result;
     bluez_proxy->callMethod("GetManagedObjects")
-        .onInterface("org.freedesktop.DBus.ObjectManager").storeResultsTo(result);
+        .onInterface("org.freedesktop.DBus.ObjectManager")
+        .storeResultsTo(result);
     if (result.size() > 1) {
         std::cout << "";
         for (auto& [key,val] : result) {
