@@ -45,7 +45,7 @@ int main () {
     // _actual_ audio output levels
     snd_mixer_selem_set_playback_volume_range(master_element, 0, 100);
 
-    // Call one time to prinnot_muted
+    // Call one time to print
     elem_callback(master_element, 1);
 
     // Does the thing (actually listens for events/triggers callback)
@@ -53,7 +53,8 @@ int main () {
         snd_mixer_handle_events(mixer);
     }
 
-    // Is this necessary?
     snd_mixer_close(mixer);
+    // snd_mixer_elem_free(master_element);
+    snd_mixer_free(mixer);
     return 0;
 }
