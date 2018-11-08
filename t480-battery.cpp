@@ -3,8 +3,6 @@
 #include <cmath>
 #include <thread>
 #include <chrono>
-// #include <boost/algorithm/string/join.hpp>
-// #include <boost/algorithm/string/predicate.hpp>
 
 double get_joint_percent(const std::unique_ptr<sdbus::IObjectProxy> &bat0,
                          const std::unique_ptr<sdbus::IObjectProxy> &bat1) {
@@ -23,19 +21,19 @@ std::string get_icon(double percent, bool adapter_online) {
     static int index {-1};
     std::array<std::string, 5> icons {"", "", "", "", ""};
     if (!adapter_online) {
-        if (percent > 95) {
+        if (percent >= 95) {
             return icons[4];
         }
-        else if (percent > 75) {
+        else if (percent >= 75) {
             return icons[3];
         }
-        else if (percent > 50) {
+        else if (percent >= 50) {
             return icons [2];
         }
-        else if (percent > 25) {
+        else if (percent >= 25) {
             return icons [1];
         }
-        else if (percent <= 25) {
+        else if (percent < 25) {
             return icons [0];
         }
     }
