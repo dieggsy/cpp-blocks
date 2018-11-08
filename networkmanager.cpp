@@ -30,17 +30,26 @@ std::string make_connection_string(sdbus::ObjectPath path) {
     std::string type = active_proxy->getProperty("Type")
         .onInterface("org.freedesktop.NetworkManager.Connection.Active");
     std::string icon;
+    bool only_icon = false;
     if (string_has_suffix(type, "wireless")) {
         icon = "";
     }
     else if (string_has_suffix(type, "ethernet")) {
-        icon = "<>";
+        icon = "";
+    }
+    else if (string_has_suffix(type, "vpn")) {
+        icon = "";
+        only_icon = true;
+    }
+    else if (string_has_suffix(type, "tun")) {
+        icon = "";
+        only_icon = true;
     }
     else  { icon = "?"; }
     std::string id = active_proxy->getProperty("Id")
         .onInterface("org.freedesktop.NetworkManager.Connection.Active");
     string_truncate(id,10);
-    return icon + ' ' + id;
+    return icon + (only_icon ? "" : ' ' + id);
 }
 
 int main () {
