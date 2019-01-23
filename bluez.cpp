@@ -12,18 +12,21 @@ int main () {
     bluez_proxy->callMethod("GetManagedObjects")
         .onInterface("org.freedesktop.DBus.ObjectManager")
         .storeResultsTo(result);
+    std::string icon = "";
+    std::string devname = "";
     if (result.size() > 1) {
-        std::cout << "";
+        icon =  "";
         for (auto& [key,val] : result) {
             if (!(val.find("org.bluez.Device1") == val.end())) {
                 if (val["org.bluez.Device1"]["Connected"].get<bool>()) {
-                    std::cout << ' ' << val["org.bluez.Device1"]["Name"]
-                        .get<std::string>();
+                    icon = "";
+                    devname = " %{F#665C54}"+ val["org.bluez.Device1"]["Name"]
+                        .get<std::string>() + "%{F-}";
                     break;
                 }
             }
         }
     }
-    std::cout << "\n";
+    std::cout << icon << devname << "\n";
     return 0;
 }
