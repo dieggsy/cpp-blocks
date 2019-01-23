@@ -50,11 +50,11 @@ int main() {
     }
 
     catch(curlpp::RuntimeError & e) {
-        std::cout << e.what() << std::endl;
+        std::cout << " ?" << std::endl;
     }
 
     catch(curlpp::LogicError & e) {
-        std::cout << e.what() << std::endl;
+        std::cout << " ?"  << std::endl;
     }
 
     return 0;
