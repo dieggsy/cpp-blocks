@@ -25,20 +25,12 @@ std::string string_join(std::vector<std::string> &strings, std::string sep = "")
     return joined;
 };
 
-bool conn_is_tun(sdbus::ObjectPath path) {
-    auto active_proxy = sdbus::createObjectProxy
-        ("org.freedesktop.NetworkManager", path);
-    std::string type = active_proxy->getProperty("Type")
-        .onInterface("org.freedesktop.NetworkManager.Connection.Active");
-    return string_has_suffix(type, "tun");
-};
-
 bool conn_is_vpn(sdbus::ObjectPath path) {
     auto active_proxy = sdbus::createObjectProxy
         ("org.freedesktop.NetworkManager", path);
     std::string type = active_proxy->getProperty("Type")
         .onInterface("org.freedesktop.NetworkManager.Connection.Active");
-    return string_has_suffix(type, "vpn");
+    return string_has_suffix(type, "vpn") || string_has_suffix(type, "tun");
 };
 
 std::string make_connection_string(std::vector<sdbus::ObjectPath> active_connections) {
@@ -52,8 +44,9 @@ std::string make_connection_string(std::vector<sdbus::ObjectPath> active_connect
             std::string icon;
             // bool only_icon = false;
             if (string_has_suffix(type, "wireless")) {
-                if (std::find_if(std::begin(active_connections),std::end(active_connections), conn_is_tun) != std::end(active_connections)
-                    && std::find_if(std::begin(active_connections),std::end(active_connections), conn_is_vpn) != std::end(active_connections)) {
+                if (std::find_if(std::begin(active_connections),
+                                 std::end(active_connections),
+                                 conn_is_vpn) != std::end(active_connections)) {
                     icon = "";
                 }
                 else {
