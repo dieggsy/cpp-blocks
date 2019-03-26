@@ -1,7 +1,10 @@
 INSTALL_DIR=~/bin/blocks/
 CXXFLAGS=-O3
 
-all: $(addprefix build/,amixer darksky intel-backlight networkmanager bluez t480-battery)
+FILES=$(wildcard *.cpp)
+TARGETS=$(addprefix build/,$(basename $(FILES)))
+
+all: $(TARGETS)
 
 small: CXXFLAGS += -s
 small: all
