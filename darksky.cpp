@@ -27,14 +27,6 @@ std::string get_icon(std::string icon) {
 
 int main() {
     try {
-        // That's all that is needed to do cleanup of used resources (RAII style).
-        curlpp::Cleanup myCleanup;
-
-        // Our request to be sent.
-        curlpp::Easy myRequest;
-
-        // Set the URL.
-
         // Send request and get a result.
         // By default the result goes to standard output.
         rapidjson::Document d;
